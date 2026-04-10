@@ -4,7 +4,8 @@ import Popular from "@/components/Popular";
 import ProductList from "@/components/ProductList";
 import Testimonials from "@/components/Testimoni";
 import Footer from "@/components/Footer";
-
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 export default async function Home() {
   const products = await getProducts();
 

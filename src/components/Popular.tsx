@@ -1,46 +1,87 @@
+"use client";
+import { useState, useEffect } from "react";
+import OrderModal from "./OrderModel"; 
+
 export default function Popular({ products }: { products: any[] }) {
-  // Ambil 3 produk pertama sebagai produk populer
+  const [mounted, setMounted] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMounted(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!mounted || !products.length) return null;
+
   const popularItems = products.slice(0, 3);
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-16 bg-orange-50/50 rounded-[3rem] my-10">
-      <div className="flex flex-col md:flex-row justify-between items-end mb-10">
-        <div>
-          <span className="text-[#FF8C00] font-bold tracking-widest uppercase text-sm">Paling Dicari</span>
-          <h2 className="text-4xl font-extrabold text-[#4B2C20] mt-2">Popular Food</h2>
+    <section id="popular" className="w-full py-12 bg-white">
+      {/* Container utama */}
+      <div className="max-w-7xl mx-auto px-6 md:px-10">
+        {/* Header Section */}
+        <div className="mb-10 text-left">
+          <span className="text-[#FF8C00] font-black tracking-widest uppercase text-[10px]">
+            Paling Dicari
+          </span>
+          <h2 className="text-3xl font-black text-[#4B2C20]">
+            Popular <span className="text-[#FF8C00]">Food</span>
+          </h2>
         </div>
-        <p className="text-gray-500 max-w-xs text-right hidden md:block">
-          Produk unggulan kami yang paling banyak dipesan minggu ini.
-        </p>
+
+        {/* Grid Container */}
+        <div className="flex md:grid md:grid-cols-3 gap-8 overflow-x-auto md:overflow-visible pb-6 scrollbar-hide snap-x snap-mandatory justify-items-center">
+          {popularItems.map((item, index) => (
+            <div 
+              key={item.id} 
+              className="min-w-70 w-full md:max-w-[320px] mx-auto snap-center bg-white p-6 rounded-[2.5rem] border border-gray-100 shadow-sm flex flex-col items-start hover:shadow-md transition-shadow"
+            >
+              <div className="relative w-50 h-50 rounded-4xl overflow-hidden bg-gray-50 mb-6 self-center border border-gray-50">
+                <div className="absolute top-3 left-3 bg-[#4B2C20] text-white w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black z-10 shadow-lg">
+                  #{index + 1}
+                </div>
+                <img 
+                  src={item.gambar?.trim()} 
+                  alt={item.nama} 
+                  className="w-full h-full object-cover"
+                  onError={(e) => { (e.target as HTMLImageElement).src = "/products/pizzaa.webp"; }} 
+                />
+              </div>
+              
+              <div className="w-full text-left">
+                <h3 className="text-xl font-bold text-[#4B2C20] capitalize mb-1">{item.nama}</h3>
+                
+                <p className="text-gray-400 text-[11px] font-medium leading-relaxed line-clamp-2 h-8 mb-4">
+                  {item.deskripsi}
+                </p>
+                
+                <div className="mb-6">
+                  <span className="text-[10px] text-gray-300 font-bold block uppercase tracking-tighter">HARGA</span>
+                  <span className="text-2xl font-black text-[#FF8C00]">
+                    Rp {item.harga.toLocaleString('id-ID')}
+                  </span>
+                </div>
+              </div>
+              
+              <button 
+                onClick={() => setSelectedProduct(item)}
+                className="w-full bg-[#4B2C20] text-white py-4 rounded-2xl font-bold text-sm hover:bg-[#FF8C00] transition-all active:scale-95 shadow-lg shadow-gray-100"
+              >
+                Pesan Sekarang
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {popularItems.map((item) => (
-          <div key={item.id} className="relative group bg-white p-4 rounded-2rem shadow-xl shadow-orange-100/50 border border-white hover:-translate-y-2 transition-all duration-300">
-            {/* Label Best Seller */}
-            <div className="absolute top-6 left-6 bg-[#FF8C00] text-white text-xs font-bold px-3 py-1 rounded-full z-10 shadow-lg">
-              BEST SELLER
-            </div>
-            
-            <div className="aspect-square rounded-1.5rem overflow-hidden mb-6">
-              <img src={item.gambar} alt={item.nama} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-            </div>
-            
-            <div className="px-2">
-              <h3 className="text-2xl font-bold text-[#4B2C20]">{item.nama}</h3>
-              <p className="text-gray-400 text-sm mt-2 line-clamp-2">{item.deskripsi}</p>
-              <div className="flex justify-between items-center mt-6">
-                <span className="text-xl font-black text-[#FF8C00]">Rp {item.harga.toLocaleString()}</span>
-                <button className="bg-[#4B2C20] p-3 rounded-xl hover:bg-[#FF8C00] transition-colors group/btn">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      {selectedProduct && (
+        <OrderModal 
+          product={selectedProduct} 
+          onClose={() => setSelectedProduct(null)} 
+        />
+      )}
     </section>
   );
 }
