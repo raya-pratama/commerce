@@ -71,10 +71,9 @@ export default function Popular({ products, onAddToCart }: { products: any[] } &
         </div>
 
         <Slider {...settings} key={mounted ? "client" : "server"} className="popular-slider">
-          {popularItems.map((item) => (
-            <div key={item.id} className="px-3">
-              {/* Card Style yang disesuaikan dengan referensi layoutmu */}
-              <div className="bg-white border border-border rounded-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300 group h-full relative">
+        {popularItems.map((item) => (
+        <div key={item.id} className="px-3 outline-none"> {/* Tambahkan outline-none biar nggak ada garis biru saat diklik */}
+          <div className="bg-white border border-border rounded-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300 group h-full relative">
                 
                 {/* Image Section */}
                 <div className="relative h-48 overflow-hidden">

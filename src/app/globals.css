@@ -22,21 +22,32 @@ html, body {
   }
 
 <style jsx global>{`
-  /* Memaksa slick-track punya lebar penuh */
+  /* Memastikan container slider punya lebar yang tetap */
+  .popular-slider {
+    display: block !important;
+    width: 100% !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  /* Force tiap item biar nggak numpuk */
+  .popular-slider .slick-slide {
+    display: block !important;
+    float: left !important;
+    height: auto !important;
+    min-height: 1px !important;
+  }
+
+  /* Perbaikan krusial untuk Next.js SSR */
   .popular-slider .slick-track {
     display: flex !important;
-    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
-  
-  /* Memaksa tiap slide punya lebar yang pas di HP */
-  @media (max-width: 640px) {
-    .popular-slider .slick-slide {
-      width: 100vw !important; /* Satu kartu memenuhi layar HP */
-      display: inline-block !important;
-    }
-    .popular-slider .slick-list {
-      padding: 0 !important;
-    }
+
+  /* Menghilangkan whitespace di kanan layar HP */
+  .slick-list {
+    overflow: hidden !important;
   }
 `}</style>
 
