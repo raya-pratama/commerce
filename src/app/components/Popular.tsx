@@ -7,8 +7,8 @@ import dynamic from 'next/dynamic';
 
 // Import CSS slick-carousel
 
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+// import 'slick-carousel/slick/slick.css';
+// import 'slick-carousel/slick/slick-theme.css';
 
  interface PopularMenuProps {
   onAddToCart: (item: MenuItem) => void;
@@ -70,7 +70,7 @@ export default function Popular({ products, onAddToCart }: { products: any[] } &
           <p className="text-xl text-muted-foreground">Our most loved dishes by customers</p>
         </div>
 
-        <Slider {...settings} className="popular-slider">
+        <Slider {...settings} key={mounted ? "client" : "server"} className="popular-slider">
           {popularItems.map((item) => (
             <div key={item.id} className="px-3">
               {/* Card Style yang disesuaikan dengan referensi layoutmu */}

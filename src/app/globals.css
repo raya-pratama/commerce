@@ -21,7 +21,24 @@ html, body {
     position: relative;
   }
 
-
+<style jsx global>{`
+  /* Memaksa slick-track punya lebar penuh */
+  .popular-slider .slick-track {
+    display: flex !important;
+    width: 100% !important;
+  }
+  
+  /* Memaksa tiap slide punya lebar yang pas di HP */
+  @media (max-width: 640px) {
+    .popular-slider .slick-slide {
+      width: 100vw !important; /* Satu kartu memenuhi layar HP */
+      display: inline-block !important;
+    }
+    .popular-slider .slick-list {
+      padding: 0 !important;
+    }
+  }
+`}</style>
 
 :root {
   --font-size: 16px;
