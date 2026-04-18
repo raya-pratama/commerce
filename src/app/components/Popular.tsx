@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import Slider from 'react-slick';
 import { Star, Plus } from "lucide-react";
 import OrderModal from "./OrderModel";
 import type { MenuItem, CartItem } from '../types';
@@ -15,6 +14,10 @@ import 'slick-carousel/slick/slick-theme.css';
   onAddToCart: (item: MenuItem) => void;
 }
 export default function Popular({ products, onAddToCart }: { products: any[] } & PopularMenuProps) {
+  const Slider = dynamic(() => import('react-slick'), { 
+  ssr: false,
+  loading: () => <div className="grid grid-cols-1 md:grid-cols-3 gap-6">Loading...</div>
+});
   const [mounted, setMounted] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
@@ -58,7 +61,7 @@ export default function Popular({ products, onAddToCart }: { products: any[] } &
       }
     ]
   };
-  const Slider = dynamic(() => import('react-slick'), { ssr: false });
+  
   return (
     <section id="populer" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
