@@ -2,78 +2,36 @@
 import { useState, useEffect } from "react";
 import { Star, Plus } from "lucide-react";
 import OrderModal from "./OrderModel";
-import type { MenuItem, CartItem } from '../types';
-import dynamic from 'next/dynamic';
 
-// Import CSS slick-carousel
-
-// import 'slick-carousel/slick/slick.css';
-// import 'slick-carousel/slick/slick-theme.css';
-
- interface PopularMenuProps {
-  onAddToCart: (item: MenuItem) => void;
-}
-const Slider = dynamic(() => import('react-slick'), { 
-ssr: false,
-loading: () => <div className="grid grid-cols-1 md:grid-cols-3 gap-6">Loading...</div>
-});
-export default function Popular({ products, onAddToCart }: { products: any[] } & PopularMenuProps) {
+export default function Popular({ products, onAddToCart }: { products: any[], onAddToCart: (item: any) => void }) {
   const [mounted, setMounted] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
+
   useEffect(() => {
     setMounted(true);
   }, []);
-  const handleOrderClick = (product: any) => {
-    setSelectedProduct(product);
-    setIsModalOpen(true);
-  };
+
   if (!mounted || !products || !products.length) return null;
 
-  // Mengambil tepat 3 item sesuai permintaanmu
   const popularItems = products.slice(0, 3);
- 
-  const settings = {
-    dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay: false,
-    autoplaySpeed: 5000,
-    initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        }
-      },
-      {
-        breakpoint: 640,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          initialSlide: 1,
-          centerMode: false,
-        }
-      }
-    ]
-  };
-  
+
   return (
-    <section id="populer" className="py-20 bg-white">
+    <section id="populer" className="py-20 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-foreground mb-4">Popular Menu</h2>
           <p className="text-xl text-muted-foreground">Our most loved dishes by customers</p>
         </div>
 
-        <Slider {...settings} key={mounted ? "client" : "server"} className="popular-slider">
-        {popularItems.map((item) => (
-        <div key={item.id} className="px-3 outline-none"> {/* Tambahkan outline-none biar nggak ada garis biru saat diklik */}
-          <div className="bg-white border border-border rounded-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300 group h-full relative">
+        {/* --- CARA BARU: NATIVE SCROLL SNAP --- */}
+        <div className="flex overflow-x-auto gap-6 snap-x snap-mandatory scrollbar-hide pb-10 px-2">
+          {popularItems.map((item) => (
+            <div 
+              key={item.id} 
+              className="min-w-[85%] sm:min-w-[calc(33.333%-1rem)] snap-center first:ml-2 last:mr-2"
+            >
+              <div className="bg-white border border-border rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group h-full relative">
                 
                 {/* Image Section */}
                 <div className="relative h-48 overflow-hidden">
@@ -81,12 +39,10 @@ export default function Popular({ products, onAddToCart }: { products: any[] } &
                     src={item.gambar}
                     alt={item.nama}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = "/pizzaa.webp";
-                    }}
+                    onError={(e) => { (e.target as HTMLImageElement).src = "/pizzaa.webp"; }}
                   />
                   <div className="absolute top-3 left-3 bg-secondary text-foreground rounded-lg px-3 py-1 text-sm font-semibold">
-                  {item.kategori}
+                    {item.kategori}
                   </div>
                   <div className="absolute top-3 right-3 bg-white rounded-full px-3 py-1 flex items-center gap-1 shadow-md">
                     <Star className="w-4 h-4 fill-secondary text-secondary" />
@@ -95,7 +51,7 @@ export default function Popular({ products, onAddToCart }: { products: any[] } &
                 </div>
 
                 {/* Content Section */}
-                <div className="p-6">
+                <div className="p-6 flex flex-col h-[calc(100%-12rem)]">
                   <h3 className="font-bold text-lg text-foreground mb-1">{item.nama}</h3>
                   <p className="text-muted-foreground text-sm mb-6 line-clamp-2">
                     {item.deskripsi}
@@ -106,54 +62,28 @@ export default function Popular({ products, onAddToCart }: { products: any[] } &
                       Rp.{item.harga.toLocaleString('id-ID')}
                     </span>
                     <button
-                    onClick={() => onAddToCart(item)}
+                      onClick={() => onAddToCart(item)}
                       className="bg-primary text-white p-2 rounded-lg hover:bg-[#ff5722] transition-colors"
                     >
-                     <div className="flex items-center gap-1">
-                       <Plus className="w-5 h-5" /> <p>Beli</p>
+                      <div className="flex items-center gap-1">
+                        <Plus className="w-5 h-5" /> <p>Beli</p>
                       </div>
                     </button>
                   </div>
                 </div>
+
               </div>
             </div>
           ))}
-        </Slider>
+        </div>
       </div>
-     {isModalOpen && selectedProduct && (
+
+      {isModalOpen && selectedProduct && (
         <OrderModal 
           onClose={() => setIsModalOpen(false)} 
           product={selectedProduct} 
         />
       )}
-      <style jsx global>{`
-        /* Menyesuaikan style pagination dots agar sama dengan referensi */
-        .popular-slider .slick-dots li button:before {
-          color: #FF6B35;
-        }
-        .popular-slider .slick-dots li.slick-active button:before {
-          color: #FF6B35;
-        }
-        .popular-slider .slick-prev,
-        .popular-slider .slick-next {
-          z-index: 10;
-        }
-        .popular-slider .slick-prev:before,
-        .popular-slider .slick-next:before {
-          color: #FF6B35;
-        }
-        /* Memastikan card memiliki tinggi yang sama */
-        .popular-slider .slick-track {
-          display: flex !important;
-          gap: 0;
-        }
-        .popular-slider .slick-slide {
-          height: inherit !important;
-        }
-        .popular-slider .slick-slide > div {
-          height: 100%;
-        }
-      `}</style>
     </section>
   );
 }
