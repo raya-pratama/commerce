@@ -13,11 +13,11 @@ import dynamic from 'next/dynamic';
  interface PopularMenuProps {
   onAddToCart: (item: MenuItem) => void;
 }
-export default function Popular({ products, onAddToCart }: { products: any[] } & PopularMenuProps) {
-  const Slider = dynamic(() => import('react-slick'), { 
-  ssr: false,
-  loading: () => <div className="grid grid-cols-1 md:grid-cols-3 gap-6">Loading...</div>
+const Slider = dynamic(() => import('react-slick'), { 
+ssr: false,
+loading: () => <div className="grid grid-cols-1 md:grid-cols-3 gap-6">Loading...</div>
 });
+export default function Popular({ products, onAddToCart }: { products: any[] } & PopularMenuProps) {
   const [mounted, setMounted] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
