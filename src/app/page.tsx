@@ -126,7 +126,7 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <Toaster position="top-right" richColors />
       <Navbar cartCount={cartCount} onCartClick={handleCartClick} />
-      <main>
+      <main className="min-h-screen w-full overflow-x-hidden">
         <Hero />
         <Popular onAddToCart={handleItemClick}  products={products} />
         <ProductList onAddToCart={handleItemClick}  products={products} />

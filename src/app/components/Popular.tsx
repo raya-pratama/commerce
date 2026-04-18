@@ -4,6 +4,7 @@ import Slider from 'react-slick';
 import { Star, Plus } from "lucide-react";
 import OrderModal from "./OrderModel";
 import type { MenuItem, CartItem } from '../types';
+import dynamic from 'next/dynamic';
 
 // Import CSS slick-carousel
 
@@ -51,12 +52,13 @@ export default function Popular({ products, onAddToCart }: { products: any[] } &
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          initialSlide: 1
+          initialSlide: 1,
+          centerMode: false,
         }
       }
     ]
   };
-
+  const Slider = dynamic(() => import('react-slick'), { ssr: false });
   return (
     <section id="populer" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
