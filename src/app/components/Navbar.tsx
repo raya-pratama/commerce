@@ -1,12 +1,16 @@
 "use client";
 import { useState } from "react";
-import { Menu, X, ShoppingCart } from "lucide-react";
+import { Menu, X, ShoppingCart, User, UtensilsCrossed } from "lucide-react";
 
-export default function Navbar() {
+interface NavbarProps {
+  cartCount: number;
+  onCartClick: () => void;
+}
+export default function Navbar({ cartCount, onCartClick }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="relative w-full bg-gray-50 border-b backdrop-blur-2xl border-gray-50 z-50">
+    <nav className="sticky top-0 w-full bg-white/80 border-b backdrop-blur-2xl border-gray-100 z-50">
       <div className="max-w-7xl mx-auto px-6 md:px-10">
         <div className="flex justify-between items-center h-20">
           
@@ -22,7 +26,7 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-10">
-            {["Home", "Popular", "Menu", "Testimoni"].map((item) => (
+            {["Beranda", "Populer", "Menu", "Testimoni"].map((item) => (
               <a 
                 key={item}
                 href={`#${item.toLowerCase()}`}
@@ -32,7 +36,7 @@ export default function Navbar() {
               </a>
             ))}
           </div>
-
+            
           {/* Buttons */}
           <div className="flex items-center gap-4">
             <button className="hidden md:flex items-center gap-2 bg-[#FF8C00] text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-[#4B2C20] transition-all active:scale-95 shadow-md shadow-gray-100">
@@ -41,6 +45,20 @@ export default function Navbar() {
             </a>
             </button>
             
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={onCartClick}
+              className="relative p-2 hover:bg-muted rounded-lg transition-colors"
+            >
+              <ShoppingCart className="w-6 h-6 text-foreground" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
+            </button>
+          </div>
+
             {/* Mobile */}
             <button 
               className="md:hidden text-[#4B2C20]"
@@ -54,7 +72,7 @@ export default function Navbar() {
         {isOpen && (
           <div className="md:hidden py-6 border-t border-gray-50 animate-in fade-in slide-in-from-top-5">
             <div className="flex flex-col gap-5">
-              {["Home", "Populer", "Katalog", "Testimoni"].map((item) => (
+              {["Beranda", "Populer", "Menu", "Testimoni"].map((item) => (
                 <a 
                   key={item}
                   href={`#${item.toLowerCase()}`}

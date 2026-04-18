@@ -17,7 +17,8 @@ export async function getProducts() {
         harga: parseInt(columns[3]?.replace(/[^0-9]/g, "")) || 0,
         kategori: columns[2]?.trim(),
         deskripsi: columns[4]?.trim(),
-        gambar: rawGambar.trim()
+        gambar: rawGambar.trim(),
+        rating: columns[6]?.trim()
       };
     });
   } catch (error) {

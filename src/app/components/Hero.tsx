@@ -1,6 +1,6 @@
 export default function Hero() {
   return (
-    <section id="home" className="relative max-w-7xl mx-auto px-6 py-20 overflow-hidden">
+    <section id="beranda" className="relative max-w-7xl  mx-auto px-6 py-20 overflow-hidden">
       <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
         
         {/* Teks Sebelah Kiri */}
