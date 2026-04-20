@@ -30,8 +30,8 @@ export default function Hero() {
           {/* Bagian Gambar Kanan */}
           <div className="flex-1 relative">
            <div className="absolute top-1/2 left-1/2 z-0 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-orange-100 rounded-full blur-3xl opacity-50 animate-pulse"></div>
-           <div className="absolute z-0 top-0 right-4 w-16 h-16 lg:w-24 lg:h-24 bg-[#FF8C00] rounded-full shadow-lg animate-bounce"></div>
-           <div className="absolute z-0 bottom-4 left-2 w-20 h-20 lg:w-32 lg:h-32 bg-[#FF8C00] rounded-full shadow-lg animate-bounce delay-75"></div>
+           <div className="absolute z-0 top-0 right-4 w-20 h-20 lg:w-24 lg:h-24 bg-[#FF8C00] rounded-full shadow-lg animate-bounce"></div>
+           <div className="absolute z-0 bottom-4 left-2 w-24 h-24 lg:w-32 lg:h-32 bg-[#FF8C00] rounded-full shadow-lg animate-bounce delay-75"></div>
             
             <div className="relative w-80 h-80 lg:w-112.5 lg:h-112.5 mx-auto">
               <div className="absolute inset-0 border-12 border-orange-50 rounded-full shadow-inner"></div>
