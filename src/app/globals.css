@@ -103,7 +103,14 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+  * {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
 
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
   /* Fix Slick Slider Numpuk */
   .popular-slider {
     display: block !important;
